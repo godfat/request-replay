@@ -1,7 +1,7 @@
 
-require 'replay-request'
+require 'request-replay'
 
-class ReplayRequest::Middleware
+class RequestReplay::Middleware
   def initialize app, host, headers={}
     @app, @host, @headers = app, host, headers
   end

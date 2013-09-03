@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = "replay-request"
+  s.name = "request-replay"
   s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -16,12 +16,14 @@ Gem::Specification.new do |s|
   "README.md",
   "Rakefile",
   "lib/replay-request.rb",
-  "lib/replay-request/middleware.rb",
+  "lib/request-replay.rb",
+  "lib/request-replay/middleware.rb",
   "replay-request.gemspec",
+  "request-replay.gemspec",
   "task/.gitignore",
   "task/gemgem.rb",
   "test/test_basic.rb"]
-  s.homepage = "https://github.com/godfat/replay-request"
+  s.homepage = "https://github.com/godfat/request-replay"
   s.licenses = ["Apache License 2.0"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.7"

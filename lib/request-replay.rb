@@ -2,8 +2,8 @@
 require 'socket'
 require 'stringio'
 
-class ReplayRequest
-  autoload :Middleware, 'replay-request/middleware'
+class RequestReplay
+  autoload :Middleware, 'request-replay/middleware'
 
   NEWLINE      = "\r\n"
   HTTP_VERSION = 'HTTP/1.1'

@@ -12,7 +12,7 @@ Gemgem.dir = dir
 desc 'Generate gemspec'
 task 'gem:spec' do
   Gemgem.spec = Gemgem.create do |s|
-    s.name    = 'replay-request'
+    s.name    = 'request-replay'
     s.version = '0.5.0'
 
     %w[bacon rack].each{ |g| s.add_development_dependency(g) }

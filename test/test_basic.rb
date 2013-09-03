@@ -9,9 +9,9 @@ module Kernel
   end
 end
 
-require 'replay-request'
+require 'request-replay'
 
-describe ReplayRequest do
+describe RequestReplay do
   host = 'localhost'
   port = 1024 + rand(2**16 - 1024)
   serv = TCPServer.new('localhost', port)
@@ -29,7 +29,7 @@ describe ReplayRequest do
   end
 
   request = lambda do |env1, headers={}|
-    Thread.new(ReplayRequest.new(
+    Thread.new(RequestReplay.new(
                  env.merge(env1), hopt, headers)) do |replay|
       replay.start{ |sock| sock.close_write; sock.read }
     end

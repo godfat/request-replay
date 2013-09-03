@@ -1,12 +1,12 @@
-# replay-request [![Build Status](https://secure.travis-ci.org/godfat/replay-request.png?branch=master)](http://travis-ci.org/godfat/replay-request)
+# request-replay [![Build Status](https://secure.travis-ci.org/godfat/request-replay.png?branch=master)](http://travis-ci.org/godfat/request-replay)
 
 by Lin Jen-Shin ([godfat](http://godfat.org))
 
 ## LINKS:
 
-* [github](https://github.com/godfat/replay-request)
-* [rubygems](https://rubygems.org/gems/replay-request)
-* [rdoc](http://rdoc.info/github/godfat/replay-request)
+* [github](https://github.com/godfat/request-replay)
+* [rubygems](https://rubygems.org/gems/request-replay)
+* [rdoc](http://rdoc.info/github/godfat/request-replay)
 
 ## DESCRIPTION:
 
@@ -18,7 +18,7 @@ Replay the request via Rack env
 
 ## INSTALLATION:
 
-    gem install replay-request
+    gem install request-replay
 
 ## SYNOPSIS:
 
@@ -29,15 +29,15 @@ and the second argument is what's additional headers we want to
 overwrite in the original request.
 
 ``` ruby
-require 'replay-request'
-use ReplayRequest::Middleware, 'localhost:8080', 'Host' => 'example.com'
+require 'request-replay'
+use RequestReplay::Middleware, 'localhost:8080', 'Host' => 'example.com'
 run lambda{ |env| [200, {}, [env.inspect]] }
 ```
 
 It's effectively the same as:
 
 ``` ruby
-require 'replay-request'
+require 'request-replay'
 use Class.new{
   def initialize app, host, headers={}
     @app, @host, @headers = app, host, headers
@@ -46,7 +46,7 @@ use Class.new{
   def call env
     # We don't want to read the socket in a thread, so create it in main
     # thread, and send the data in a thread as we don't care the responses
-    Thread.new(ReplayRequest.new(env, @host, @headers), &:start)
+    Thread.new(RequestReplay.new(env, @host, @headers), &:start)
     @app.call(env)
   end
 }, 'localhost:8080', 'Host' => 'example.com'
