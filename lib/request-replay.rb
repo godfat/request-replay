@@ -7,13 +7,14 @@ class RequestReplay
 
   NEWLINE      = "\r\n"
   HTTP_VERSION = 'HTTP/1.1'
+  RACK_INPUT   = 'rack.input'
 
   def initialize env, host, addhead={}
     @env, (@host, @port), @addhead = env, host.split(':', 2), addhead
-    if env['rack.input']
-      env['rack.input'].rewind
+    if env[RACK_INPUT]
+      env[RACK_INPUT].rewind
       @buf = StringIO.new
-      IO.copy_stream(env['rack.input'], @buf)
+      IO.copy_stream(env[RACK_INPUT], @buf)
       @buf.rewind
     end
   end
