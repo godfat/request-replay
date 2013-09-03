@@ -10,15 +10,16 @@ Gem::Specification.new do |s|
   s.description = "Replay the request via Rack env"
   s.email = ["godfat (XD) godfat.org"]
   s.files = [
+  ".gitignore",
   ".gitmodules",
+  ".travis.yml",
   "CHANGES.md",
+  "Gemfile",
   "LICENSE",
   "README.md",
   "Rakefile",
-  "lib/replay-request.rb",
   "lib/request-replay.rb",
   "lib/request-replay/middleware.rb",
-  "replay-request.gemspec",
   "request-replay.gemspec",
   "task/.gitignore",
   "task/gemgem.rb",
