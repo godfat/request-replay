@@ -10,6 +10,7 @@ module Kernel
 end
 
 require 'request-replay'
+require 'rack'
 
 describe RequestReplay do
   host = 'localhost'
@@ -56,5 +57,24 @@ Pork: BEEF\r
 PAYLOAD\r
 \r
     HTTP
+  end
+
+  describe RequestReplay::Middleware do
+    app = Rack::Builder.app do
+      use RequestReplay::Middleware, hopt
+      run lambda{ |env| [200, {}, []] }
+    end
+
+    should 'PUT' do
+      app.call(env.merge('REQUEST_METHOD' => 'PUT'))
+      sock = serv.accept
+      sock.read.should.eq <<-HTTP
+PUT /?q=1 HTTP/1.1\r
+Host: localhost\r
+Pork: BEEF\r
+\r
+      HTTP
+      sock.close
+    end
   end
 end
