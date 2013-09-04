@@ -42,7 +42,7 @@ class RequestReplay
   end
 
   def request
-    "#{@env['REQUEST_METHOD']} #{request_path} #{HTTP_VERSION}"
+    "#{@env['REQUEST_METHOD'] || 'GET'} #{request_path} #{HTTP_VERSION}"
   end
 
   def headers
