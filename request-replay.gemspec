@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# stub: request-replay 0.5.0 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "request-replay"
@@ -6,7 +7,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2013-09-04"
+  s.date = "2013-09-28"
   s.description = "Replay the request via Rack env"
   s.email = ["godfat (XD) godfat.org"]
   s.files = [
@@ -27,7 +28,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/godfat/request-replay"
   s.licenses = ["Apache License 2.0"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "2.0.7"
+  s.rubygems_version = "2.1.5"
   s.summary = "Replay the request via Rack env"
   s.test_files = ["test/test_basic.rb"]
 
