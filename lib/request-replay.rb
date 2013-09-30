@@ -9,8 +9,8 @@ class RequestReplay
   HTTP_VERSION = 'HTTP/1.1'
   RACK_INPUT   = 'rack.input'
 
-  def initialize env, host, addhead={}
-    @env, (@host, @port), @addhead = env, host.split(':', 2), addhead
+  def initialize env, host, options={}
+    @env, (@host, @port), @options = env, host.split(':', 2), options
     if env[RACK_INPUT]
       env[RACK_INPUT].rewind
       @buf = StringIO.new
@@ -19,10 +19,20 @@ class RequestReplay
     end
   end
 
+  def add_headers
+    @options[:add_headers] || {}
+  end
+
+  def read_wait
+    @options[:read_wait] && Float(@options[:read_wait])
+  end
+
   def start
     write_request
     write_headers
     write_payload
+    sock.close_write
+    IO.select([sock], [], [], read_wait) if read_wait
     yield(sock) if block_given?
   ensure
     sock.close
@@ -61,8 +71,7 @@ class RequestReplay
         r
       }.merge('Content-Type'   => @env['CONTENT_TYPE'  ],
               'Content-Length' => @env['CONTENT_LENGTH']).
-        merge(@addhead).
-        select{ |_, v| v }
+        merge(add_headers).select{ |_, v| v }
   end
 
   def capitalize_headers header

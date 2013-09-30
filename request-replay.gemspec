@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
-# stub: request-replay 0.5.0 ruby lib
+# stub: request-replay 0.6.0 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "request-replay"
-  s.version = "0.5.0"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2013-09-29"
+  s.date = "2013-10-01"
   s.description = "Replay the request via Rack env"
   s.email = ["godfat (XD) godfat.org"]
   s.files = [
@@ -37,13 +37,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<bacon>, [">= 0"])
+      s.add_development_dependency(%q<muack>, [">= 0"])
       s.add_development_dependency(%q<rack>, [">= 0"])
     else
       s.add_dependency(%q<bacon>, [">= 0"])
+      s.add_dependency(%q<muack>, [">= 0"])
       s.add_dependency(%q<rack>, [">= 0"])
     end
   else
     s.add_dependency(%q<bacon>, [">= 0"])
+    s.add_dependency(%q<muack>, [">= 0"])
     s.add_dependency(%q<rack>, [">= 0"])
   end
 end

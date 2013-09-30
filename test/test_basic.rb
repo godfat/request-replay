@@ -1,7 +1,9 @@
 
 require 'bacon'
+require 'muack'
 
 Bacon.summary_on_exit
+include Muack::API
 
 module Kernel
   def eq? rhs
@@ -17,7 +19,8 @@ describe RequestReplay do
   port = 1024 + rand(2**16 - 1024)
   serv = TCPServer.new('localhost', port)
   hopt = "#{host}:#{port}"
-  env  = {'PATH_INFO' => '/', 'QUERY_STRING' => 'q=1',
+  env  = {'REQUEST_METHOD' => 'GET',
+          'PATH_INFO' => '/', 'QUERY_STRING' => 'q=1',
           'HTTP_HOST' => 'localhost',
           'HTTP_PORK' => 'BEEF'     }
 
@@ -29,10 +32,11 @@ describe RequestReplay do
     response.value.should.eq(expected)
   end
 
-  request = lambda do |env1, headers={}|
-    Thread.new(RequestReplay.new(
-                 env.merge(env1), hopt, headers)) do |replay|
-      replay.start{ |sock| sock.close_write; sock.read }
+  request = lambda do |env1, headers={}, read_wait=nil|
+    Thread.new(RequestReplay.new(env.merge(env1), hopt,
+                                 :add_headers => headers,
+                                 :read_wait   => read_wait)) do |replay|
+      replay.start(&:read)
     end
   end
 
@@ -55,6 +59,20 @@ Host: localhost\r
 Pork: BEEF\r
 \r
 PAYLOAD\r
+\r
+    HTTP
+  end
+
+  should 'read_wait' do
+    read_wait = 5
+    mock(IO).select(satisfy{ |rs| rs.size == 1 &&
+                                  rs[0].kind_of?(IO) },
+                    [], [], read_wait)
+
+    verify[request[{}, {}, read_wait], <<-HTTP]
+GET /?q=1 HTTP/1.1\r
+Host: localhost\r
+Pork: BEEF\r
 \r
     HTTP
   end
