@@ -40,6 +40,10 @@ describe RequestReplay do
     end
   end
 
+  after do
+    Muack.verify
+  end
+
   should 'GET' do
     verify[request[{'REQUEST_METHOD' => 'GET'}, 'Host' => 'ex.com'], <<-HTTP]
 GET /?q=1 HTTP/1.1\r
