@@ -114,6 +114,8 @@ Pork: BEEF\r
     end
 
     should 'retain original env' do
+      e = env.dup
+
       app = Rack::Builder.app do
         use RequestReplay::Middleware, hopt
         run lambda{ |env|
@@ -122,7 +124,7 @@ Pork: BEEF\r
         }
       end
 
-      app.call(env)
+      app.call(e)
       sock = serv.accept
       sock.read.should.eq <<-HTTP
 GET /?q=1 HTTP/1.1\r
