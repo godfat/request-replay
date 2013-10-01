@@ -134,5 +134,27 @@ Pork: BEEF\r
       HTTP
       sock.close
     end
+
+    should 'rewrite_env' do
+      app = Rack::Builder.app do
+        use RequestReplay::Middleware, hopt, :rewrite_env => lambda{ |env|
+          if env['HTTP_HOST'].start_with?('api.')
+            env['PATH_INFO'] = "/api#{env['PATH_INFO']}"
+          end
+          env
+        }, :add_headers => {'Host' => 'eg.com'}
+        run lambda{ |env| [200, {}, []] }
+      end
+
+      app.call(env.merge('HTTP_HOST' => 'api.localhost'))
+      sock = serv.accept
+      sock.read.should.eq <<-HTTP
+GET /api/?q=1 HTTP/1.1\r
+Host: eg.com\r
+Pork: BEEF\r
+\r
+      HTTP
+      sock.close
+    end
   end
 end

@@ -31,28 +31,15 @@ overwrite in the original request.
 ``` ruby
 require 'request-replay'
 use RequestReplay::Middleware, 'localhost:8080',
-                               :add_headers => {'Host' => 'example.com'},
-                               :read_wait   => 5
-run lambda{ |env| [200, {}, [env.inspect]] }
-```
-
-It's effectively the same as:
-
-``` ruby
-require 'request-replay'
-use Class.new{
-  def initialize app, host, options={}
-    @app, @host, @options = app, host, options
-  end
-
-  def call env
-    # We don't want to read the socket in a thread, so create it in main
-    # thread, and send the data in a thread as we don't care the responses
-    Thread.new(RequestReplay.new(env, @host, @options), &:start)
-    @app.call(env)
-  end
-}, 'localhost:8080', :add_headers => {'Host' => 'example.com'},
-                     :read_wait   => 5
+    :add_headers => {'Host' => 'example.com'},
+    :read_wait   => 5,
+    # We could also rewrite the env
+    :rewrite_env => lambda{ |env|
+                      if env['HTTP_HOST'].start_with?('api.')
+                        env['PATH_INFO'] = "/api/#{env['PATH_INFO']}"
+                      end
+                      env
+                    }
 run lambda{ |env| [200, {}, [env.inspect]] }
 ```
 
