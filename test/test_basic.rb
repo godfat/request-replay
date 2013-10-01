@@ -81,6 +81,20 @@ Pork: BEEF\r
     HTTP
   end
 
+  should 'puts error' do
+    any_instance_of(TCPSocket) do |sock|
+      mock(sock).read{ raise 'ERROR' }
+    end
+
+    errors = StringIO.new
+    begin
+      request['rack.errors' => errors].value
+    ensure
+      serv.accept.close
+    end
+    errors.string.should.start_with? '[RequestReplay] Error:'
+  end
+
   describe RequestReplay::Middleware do
     app = Rack::Builder.app do
       use RequestReplay::Middleware, hopt

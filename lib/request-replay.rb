@@ -35,7 +35,7 @@ class RequestReplay
     IO.select([sock], [], [], read_wait) if read_wait
     yield(sock) if block_given?
   rescue => e
-    @env['rack.errors'].puts("[#{self.class.name}]: Error: #{e.inspect}") if
+    @env['rack.errors'].puts("[#{self.class.name}] Error: #{e.inspect}") if
       @env['rack.errors']
   ensure
     sock.close
