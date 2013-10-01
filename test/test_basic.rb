@@ -103,14 +103,17 @@ Pork: BEEF\r
       end
 
       app.call(env.merge('REQUEST_METHOD' => 'PUT'))
-      sock = serv.accept
-      sock.read.should.eq <<-HTTP
+      begin
+        sock = serv.accept
+        sock.read.should.eq <<-HTTP
 PUT /?q=1 HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
 \r
       HTTP
-      sock.close
+      ensure
+        sock.close
+      end
     end
 
     should 'retain original env' do
@@ -125,14 +128,17 @@ Pork: BEEF\r
       end
 
       app.call(e)
-      sock = serv.accept
-      sock.read.should.eq <<-HTTP
+      begin
+        sock = serv.accept
+        sock.read.should.eq <<-HTTP
 GET /?q=1 HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
 \r
       HTTP
-      sock.close
+      ensure
+        sock.close
+      end
     end
 
     should 'rewrite_env' do
@@ -147,14 +153,17 @@ Pork: BEEF\r
       end
 
       app.call(env.merge('HTTP_HOST' => 'api.localhost'))
-      sock = serv.accept
-      sock.read.should.eq <<-HTTP
+      begin
+        sock = serv.accept
+        sock.read.should.eq <<-HTTP
 GET /api/?q=1 HTTP/1.1\r
 Host: eg.com\r
 Pork: BEEF\r
 \r
       HTTP
-      sock.close
+      ensure
+        sock.close
+      end
     end
   end
 end
