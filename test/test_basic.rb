@@ -96,16 +96,36 @@ Pork: BEEF\r
   end
 
   describe RequestReplay::Middleware do
-    app = Rack::Builder.app do
-      use RequestReplay::Middleware, hopt
-      run lambda{ |env| [200, {}, []] }
-    end
-
     should 'PUT' do
+      app = Rack::Builder.app do
+        use RequestReplay::Middleware, hopt
+        run lambda{ |env| [200, {}, []] }
+      end
+
       app.call(env.merge('REQUEST_METHOD' => 'PUT'))
       sock = serv.accept
       sock.read.should.eq <<-HTTP
 PUT /?q=1 HTTP/1.1\r
+Host: localhost\r
+Pork: BEEF\r
+\r
+      HTTP
+      sock.close
+    end
+
+    should 'retain original env' do
+      app = Rack::Builder.app do
+        use RequestReplay::Middleware, hopt
+        run lambda{ |env|
+          env['PATH_INFO'] = '/bad'
+          [200, {}, []]
+        }
+      end
+
+      app.call(env)
+      sock = serv.accept
+      sock.read.should.eq <<-HTTP
+GET /?q=1 HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
 \r
