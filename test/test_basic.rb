@@ -15,14 +15,14 @@ require 'request-replay'
 require 'rack'
 
 describe RequestReplay do
-  host = 'localhost'
+  host = 'localhost'.freeze
   port = 1024 + rand(2**16 - 1024)
   serv = TCPServer.new('localhost', port)
-  hopt = "#{host}:#{port}"
+  hopt = "#{host}:#{port}".freeze
   env  = {'REQUEST_METHOD' => 'GET',
           'PATH_INFO' => '/', 'QUERY_STRING' => 'q=1',
           'HTTP_HOST' => 'localhost',
-          'HTTP_PORK' => 'BEEF'     }
+          'HTTP_PORK' => 'BEEF'     }.freeze
 
   verify = lambda do |response, expected|
     sock = serv.accept
