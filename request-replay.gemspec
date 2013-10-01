@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: request-replay 0.6.0 ruby lib
+# stub: request-replay 0.6.1 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "request-replay"
-  s.version = "0.6.0"
+  s.version = "0.6.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]

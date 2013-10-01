@@ -1,5 +1,12 @@
 # CHANGES
 
+## request-replay 0.6.1 -- 2013-10-01
+
+* Print error messages to env['rack.errors']
+* Fixed a bug where the underlying Rack app might be modifying
+  the original env, making request-replay cannot reliably rebuild
+  the request.
+
 ## request-replay 0.6.0 -- 2013-10-01
 
 * Added :read_wait option for waiting for the remote server responding.
