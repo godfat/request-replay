@@ -8,6 +8,7 @@ class RequestReplay
   NEWLINE      = "\r\n"
   HTTP_VERSION = 'HTTP/1.1'
   RACK_INPUT   = 'rack.input'
+  RACK_ERRORS  = 'rack.errors'
 
   def initialize env, host, options={}
     @env, (@host, @port), @options = env, host.split(':', 2), options
@@ -36,8 +37,8 @@ class RequestReplay
     IO.select([sock], [], [], read_wait) if read_wait
     yield(sock) if block_given?
   rescue => e
-    @env['rack.errors'].puts("[#{self.class.name}] Error: #{e.inspect}") if
-      @env['rack.errors']
+    @env[RACK_ERRORS].puts("[#{self.class.name}] Error: #{e.inspect}") if
+      @env[RACK_ERRORS]
   ensure
     sock.close
   end
