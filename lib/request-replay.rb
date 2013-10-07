@@ -5,10 +5,17 @@ require 'stringio'
 class RequestReplay
   autoload :Middleware, 'request-replay/middleware'
 
-  NEWLINE      = "\r\n"       .freeze
-  HTTP_VERSION = 'HTTP/1.1'   .freeze
-  RACK_INPUT   = 'rack.input' .freeze
-  RACK_ERRORS  = 'rack.errors'.freeze
+  NEWLINE        = "\r\n"          .freeze
+  HTTP_VERSION   = 'HTTP/1.1'      .freeze
+  RACK_INPUT     = 'rack.input'    .freeze
+  RACK_ERRORS    = 'rack.errors'   .freeze
+  REQUEST_METHOD = 'REQUEST_METHOD'.freeze
+  PATH_INFO      = 'PATH_INFO'     .freeze
+  QUERY_STRING   = 'QUERY_STRING'  .freeze
+  CONTENT_TYPE   = 'CONTENT_TYPE'  .freeze
+  CONTENT_LENGTH = 'CONTENT_LENGTH'.freeze
+  HEADER_CTYPE   = 'Content-Type'  .freeze
+  HEADER_CLENGTH = 'Content-Length'.freeze
 
   def initialize env, host, options={}
     @env, (@host, @port), @options = env, host.split(':', 2), options
@@ -57,7 +64,7 @@ class RequestReplay
   end
 
   def request
-    "#{@env['REQUEST_METHOD'] || 'GET'} #{request_path} #{HTTP_VERSION}"
+    "#{@env[REQUEST_METHOD] || 'GET'} #{request_path} #{HTTP_VERSION}"
   end
 
   def headers
@@ -65,7 +72,7 @@ class RequestReplay
   end
 
   def request_path
-    "/#{@env['PATH_INFO']}?#{@env['QUERY_STRING']}".
+    "/#{@env[PATH_INFO]}?#{@env[QUERY_STRING]}".
       sub(%r{^//}, '/').sub(/\?$/, '')
   end
 
@@ -74,8 +81,8 @@ class RequestReplay
       @env.inject({}){ |r, (k, v)|
         r[capitalize_headers(k[5..-1])] = v if k.start_with?('HTTP_')
         r
-      }.merge('Content-Type'   => @env['CONTENT_TYPE'  ],
-              'Content-Length' => @env['CONTENT_LENGTH']).
+      }.merge(HEADER_CTYPE   => @env[CONTENT_TYPE  ],
+              HEADER_CLENGTH => @env[CONTENT_LENGTH]).
         merge(add_headers).select{ |_, v| v }
   end
 
