@@ -16,6 +16,7 @@ class RequestReplay
       @buf = StringIO.new
       IO.copy_stream(env[RACK_INPUT], @buf)
       @buf.rewind
+      env[RACK_INPUT].rewind
     end
   end
 
