@@ -1,5 +1,11 @@
 # CHANGES
 
+## request-replay 0.6.3 -- 2013-10-07
+
+* Fixed an issue where Rack::Request does not try to rewind rack.input for
+  form POST. We rewind for them. Thanks @yyjim
+* Extracted more constants. Might boost performance a bit.
+
 ## request-replay 0.6.2 -- 2013-10-01
 
 * Added :rewrite_env option for rewriting env for specific use.

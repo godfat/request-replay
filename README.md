@@ -45,6 +45,7 @@ run lambda{ |env| [200, {}, [env.inspect]] }
 
 ## CONTRIBUTORS:
 
+* Jim Wang (@yyjim)
 * Lin Jen-Shin (@godfat)
 
 ## LICENSE:
