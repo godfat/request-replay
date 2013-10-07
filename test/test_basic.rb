@@ -95,6 +95,15 @@ Pork: BEEF\r
     errors.string.should.start_with? '[RequestReplay] Error:'
   end
 
+  should 'not affect Rack::Request' do
+    input = StringIO.new('a=0&b=1')
+    e     = {'rack.input' => input, 'REQUEST_METHOD' => 'POST'}
+    t     = request[e]
+    serv.accept.close
+    t.join
+    Rack::Request.new(e).POST.should.eq('a' => '0', 'b' => '1')
+  end
+
   describe RequestReplay::Middleware do
     should 'PUT' do
       app = Rack::Builder.app do
