@@ -5,10 +5,10 @@ require 'stringio'
 class RequestReplay
   autoload :Middleware, 'request-replay/middleware'
 
-  NEWLINE      = "\r\n"
-  HTTP_VERSION = 'HTTP/1.1'
-  RACK_INPUT   = 'rack.input'
-  RACK_ERRORS  = 'rack.errors'
+  NEWLINE      = "\r\n"       .freeze
+  HTTP_VERSION = 'HTTP/1.1'   .freeze
+  RACK_INPUT   = 'rack.input' .freeze
+  RACK_ERRORS  = 'rack.errors'.freeze
 
   def initialize env, host, options={}
     @env, (@host, @port), @options = env, host.split(':', 2), options
