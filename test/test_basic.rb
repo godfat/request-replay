@@ -108,7 +108,7 @@ Pork: BEEF\r
     should 'PUT' do
       app = Rack::Builder.app do
         use RequestReplay::Middleware, hopt
-        run lambda{ |env| [200, {}, []] }
+        run lambda{ |_| [200, {}, []] }
       end
 
       app.call(env.merge('REQUEST_METHOD' => 'PUT'))
@@ -130,8 +130,8 @@ Pork: BEEF\r
 
       app = Rack::Builder.app do
         use RequestReplay::Middleware, hopt
-        run lambda{ |env|
-          env['PATH_INFO'] = '/bad'
+        run lambda{ |en|
+          en['PATH_INFO'] = '/bad'
           [200, {}, []]
         }
       end
@@ -152,13 +152,13 @@ Pork: BEEF\r
 
     should 'rewrite_env' do
       app = Rack::Builder.app do
-        use RequestReplay::Middleware, hopt, :rewrite_env => lambda{ |env|
-          if env['HTTP_HOST'].start_with?('api.')
-            env['PATH_INFO'] = "/api#{env['PATH_INFO']}"
+        use RequestReplay::Middleware, hopt, :rewrite_env => lambda{ |en|
+          if en['HTTP_HOST'].start_with?('api.')
+            en['PATH_INFO'] = "/api#{en['PATH_INFO']}"
           end
-          env
+          en
         }, :add_headers => {'Host' => 'eg.com'}
-        run lambda{ |env| [200, {}, []] }
+        run lambda{ |_| [200, {}, []] }
       end
 
       app.call(env.merge('HTTP_HOST' => 'api.localhost'))

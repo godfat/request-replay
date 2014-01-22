@@ -25,6 +25,8 @@ class RequestReplay
       IO.copy_stream(env[RACK_INPUT], @buf)
       @buf.rewind
       env[RACK_INPUT].rewind
+    else
+      @buf = nil
     end
   end
 
