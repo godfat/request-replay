@@ -51,14 +51,14 @@ this only works on Rack servers which support [Rack Hijacking][].
 ``` ruby
 require 'request-replay'
 run RequestReplay::Proxy.new(
-  'localhost:8080', :add_headers => {'Host' => 'example.com'},
-                    # We could also rewrite the env
-                    :rewrite_env => lambda{ |env|
-                      if env['HTTP_HOST'].start_with?('api.')
-                        env['PATH_INFO'] = "/api/#{env['PATH_INFO']}"
-                      end
-                      env
-                    })
+  'example.com', :add_headers => {'Host' => 'example.com'},
+                 # We could also rewrite the env
+                 :rewrite_env => lambda{ |env|
+                   if env['HTTP_HOST'].start_with?('api.')
+                     env['PATH_INFO'] = "/api/#{env['PATH_INFO']}"
+                   end
+                   env
+                 })
 ```
 
 ## CONTRIBUTORS:
