@@ -43,6 +43,24 @@ use RequestReplay::Middleware, 'localhost:8080',
 run lambda{ |env| [200, {}, [env.inspect]] }
 ```
 
+You could also use `RequestReplay::Proxy` as a reverse proxy. Note that
+this only works on Rack servers which support [Rack Hijacking][].
+
+[Rack Hijacking]: http://rack.rubyforge.org/doc/SPEC.html
+
+``` ruby
+require 'request-replay'
+run RequestReplay::Proxy.new(
+  'localhost:8080', :add_headers => {'Host' => 'example.com'},
+                    # We could also rewrite the env
+                    :rewrite_env => lambda{ |env|
+                      if env['HTTP_HOST'].start_with?('api.')
+                        env['PATH_INFO'] = "/api/#{env['PATH_INFO']}"
+                      end
+                      env
+                    })
+```
+
 ## CONTRIBUTORS:
 
 * Jim Wang (@yyjim)
@@ -52,7 +70,7 @@ run lambda{ |env| [200, {}, [env.inspect]] }
 
 Apache License 2.0
 
-Copyright (c) 2013, Lin Jen-Shin (godfat)
+Copyright (c) 2013-2014, Lin Jen-Shin (godfat)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

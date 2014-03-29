@@ -4,6 +4,7 @@ require 'stringio'
 
 class RequestReplay
   autoload :Middleware, 'request-replay/middleware'
+  autoload :Proxy     , 'request-replay/proxy'
 
   NEWLINE        = "\r\n"          .freeze
   HTTP_VERSION   = 'HTTP/1.1'      .freeze

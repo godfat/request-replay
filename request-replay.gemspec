@@ -1,13 +1,14 @@
 # -*- encoding: utf-8 -*-
-# stub: request-replay 0.6.3 ruby lib
+# stub: request-replay 0.7.0 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "request-replay"
-  s.version = "0.6.3"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.require_paths = ["lib"]
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2013-12-14"
+  s.date = "2014-03-30"
   s.description = "Replay the request via Rack env"
   s.email = ["godfat (XD) godfat.org"]
   s.files = [
@@ -19,18 +20,26 @@ Gem::Specification.new do |s|
   "LICENSE",
   "README.md",
   "Rakefile",
+  "config.ru",
   "lib/request-replay.rb",
   "lib/request-replay/middleware.rb",
+  "lib/request-replay/proxy.rb",
+  "lib/request-replay/test.rb",
   "request-replay.gemspec",
-  "task/.gitignore",
+  "task/README.md",
   "task/gemgem.rb",
-  "test/test_basic.rb"]
+  "test/test_middleware.rb",
+  "test/test_proxy.rb",
+  "test/test_request-replay.rb",
+  "unicorn.rb"]
   s.homepage = "https://github.com/godfat/request-replay"
   s.licenses = ["Apache License 2.0"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = "2.1.11"
+  s.rubygems_version = "2.2.2"
   s.summary = "Replay the request via Rack env"
-  s.test_files = ["test/test_basic.rb"]
+  s.test_files = [
+  "test/test_middleware.rb",
+  "test/test_proxy.rb",
+  "test/test_request-replay.rb"]
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
