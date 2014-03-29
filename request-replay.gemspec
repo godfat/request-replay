@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   "LICENSE",
   "README.md",
   "Rakefile",
-  "config.ru",
   "lib/request-replay.rb",
   "lib/request-replay/middleware.rb",
   "lib/request-replay/proxy.rb",
@@ -30,8 +29,7 @@ Gem::Specification.new do |s|
   "task/gemgem.rb",
   "test/test_middleware.rb",
   "test/test_proxy.rb",
-  "test/test_request-replay.rb",
-  "unicorn.rb"]
+  "test/test_request-replay.rb"]
   s.homepage = "https://github.com/godfat/request-replay"
   s.licenses = ["Apache License 2.0"]
   s.rubygems_version = "2.2.2"

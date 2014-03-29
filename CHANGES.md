@@ -1,5 +1,10 @@
 # CHANGES
 
+## request-replay 0.7.0 -- 2014-03-30
+
+* Fixed a bug where nginx with sendfile on might not send a full file back.
+* Introduced RequestReplay::Proxy which could serve as a reverse proxy.
+
 ## request-replay 0.6.3 -- 2013-10-07
 
 * Fixed an issue where Rack::Request does not try to rewind rack.input for
