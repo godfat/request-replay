@@ -26,7 +26,11 @@ shared :test do
 
   @verify = lambda do |response, expected|
     sock = @serv.accept
-    sock.read     .should.eq(expected)
+    if expected.start_with?('POST')
+      sock.readline("\r\n\r\n") + sock.readline("\r\n\r\n")
+    else
+      sock.readline("\r\n\r\n")
+    end.should.eq(expected)
     sock.write(expected)
     sock.close
     response.value.should.eq(expected)

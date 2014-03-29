@@ -43,7 +43,6 @@ class RequestReplay
     write_request
     write_headers
     write_payload
-    sock.close_write
     IO.select([sock], [], [], read_wait) if read_wait
     yield(sock) if block_given?
   rescue => e
