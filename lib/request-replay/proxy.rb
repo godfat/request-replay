@@ -9,11 +9,10 @@ class RequestReplay::Proxy
   end
 
   def call env
-    Thread.new(env['rack.hijack'].call) do |io|
-      RequestReplay.new(rewrite_env(env), @host, @options).start do |sock|
-        IO.copy_stream(sock, io)
-        io.close
-      end
+    env['rack.hijack'].call
+    RequestReplay.new(rewrite_env(env), @host, @options).start do |sock|
+      IO.copy_stream(sock, env['rack.hijack_io'])
+      env['rack.hijack_io'].close
     end
     [200, {}, []]
   end
