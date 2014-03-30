@@ -8,6 +8,6 @@ end
 
 Gemgem.init(dir) do |s|
   s.name    = 'request-replay'
-  s.version = '0.7.0'
+  s.version = '0.7.1'
   %w[bacon muack rack].each{ |g| s.add_development_dependency(g) }
 end

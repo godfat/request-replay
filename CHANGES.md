@@ -1,5 +1,12 @@
 # CHANGES
 
+## request-replay 0.7.1 -- 2014-03-30
+
+* Add a default header: `Connection: close` for RequestReplay::Proxy since
+  we're not going to reuse the connection anyway. There's no way to return
+  the socket back to the web server after hijacking according to Rack's SPEC.
+  This should fix some weird issues with web pages with a lot of images.
+
 ## request-replay 0.7.0 -- 2014-03-30
 
 * Fixed a bug where nginx with sendfile on might not send a full file back.
