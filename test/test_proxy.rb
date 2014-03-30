@@ -26,6 +26,7 @@ describe RequestReplay::Proxy do
 GET /?q=1 HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
+Connection: close\r
 \r
     HTTP
 
@@ -41,6 +42,7 @@ Pork: BEEF\r
 GET /?q=1 HTTP/1.1\r
 Host: ex.com\r
 Pork: BEEF\r
+Connection: close\r
 \r
     HTTP
 
@@ -56,6 +58,7 @@ Pork: BEEF\r
 GET /a?q=1 HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
+Connection: close\r
 \r
     HTTP
 

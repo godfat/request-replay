@@ -4,6 +4,8 @@ require 'request-replay'
 class RequestReplay::Proxy
   def initialize host, options={}
     @host, @options = host, options
+    # since we're hijacking, we don't manage connections
+    (@options[:add_headers] ||= {})['Connection'] ||= 'close'
   end
 
   def call env
