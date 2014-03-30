@@ -6,15 +6,11 @@ describe RequestReplay::Proxy do
   behaves_like :test
 
   request = lambda do |env, buf, options={}|
-    mock(buf).close
-    Thread.new{
-      begin
-        RequestReplay::Proxy.new(@hopt, options).call(env)
-        buf.string
-      rescue => e
-        p e
-      end
-    }
+    rd, wr = IO.pipe
+    mock(buf).close.peek_return{ wr.puts }
+    mock(buf).value{ rd.gets; buf.string }
+    RequestReplay::Proxy.new(@hopt, options).call(env)
+    buf
   end
 
   after do
