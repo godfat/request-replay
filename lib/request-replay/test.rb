@@ -16,8 +16,8 @@ end
 
 shared :test do
   @host = 'localhost'.freeze
-  @port = 1024 + rand(2**16 - 1024)
-  @serv = TCPServer.new('localhost', @port)
+  @serv = TCPServer.new(0)
+  @port = @serv.addr[1]
   @hopt = "#{@host}:#{@port}".freeze
   @env  = {'REQUEST_METHOD' => 'GET',
            'PATH_INFO' => '/', 'QUERY_STRING' => 'q=1',
