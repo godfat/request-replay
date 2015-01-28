@@ -2,9 +2,9 @@
 require 'request-replay/test'
 
 describe RequestReplay::Middleware do
-  behaves_like :test
+  paste :test
 
-  should 'PUT' do
+  would 'PUT' do
     hopt = @hopt
     app = Rack::Builder.app do
       use RequestReplay::Middleware, hopt
@@ -25,7 +25,7 @@ Pork: BEEF\r
     end
   end
 
-  should 'retain original env' do
+  would 'retain original env' do
     hopt = @hopt
     e = @env.dup
 
@@ -51,7 +51,7 @@ Pork: BEEF\r
     end
   end
 
-  should 'rewrite_env' do
+  would 'rewrite_env' do
     hopt = @hopt
     app = Rack::Builder.app do
       use RequestReplay::Middleware, hopt, :rewrite_env => lambda{ |env|

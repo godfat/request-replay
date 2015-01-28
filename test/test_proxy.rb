@@ -3,9 +3,9 @@
 require 'request-replay/test'
 
 describe RequestReplay::Proxy do
-  behaves_like :test
+  paste :test
 
-  request = lambda do |env, buf, options={}|
+  def request env, buf, options={}
     mock(buf).close
     Thread.new{
       begin
@@ -21,7 +21,7 @@ describe RequestReplay::Proxy do
     Muack.verify
   end
 
-  should 'basic' do
+  would 'basic' do
     expected = <<-HTTP
 GET /?q=1 HTTP/1.1\r
 Host: localhost\r
@@ -34,10 +34,10 @@ Connection: close\r
     env = {'rack.hijack' => mock.call{ env['rack.hijack_io'] = buf }.object}.
           merge(@env)
 
-    @verify[request[env, buf], expected]
+    @verify[request(env, buf), expected]
   end
 
-  should 'add_headers' do
+  would 'add_headers' do
     expected = <<-HTTP
 GET /?q=1 HTTP/1.1\r
 Host: ex.com\r
@@ -50,10 +50,10 @@ Connection: close\r
     env = {'rack.hijack' => mock.call{ env['rack.hijack_io'] = buf }.object}.
           merge(@env)
 
-    @verify[request[env, buf, :add_headers => {'Host' => 'ex.com'}], expected]
+    @verify[request(env, buf, :add_headers => {'Host' => 'ex.com'}), expected]
   end
 
-  should 'rewrite_env' do
+  would 'rewrite_env' do
     expected = <<-HTTP
 GET /a?q=1 HTTP/1.1\r
 Host: localhost\r
@@ -66,6 +66,6 @@ Connection: close\r
     env = {'rack.hijack' => mock.call{ env['rack.hijack_io'] = buf }.object}.
           merge(@env)
     rewrite_env = lambda{ |env| env['PATH_INFO'] = '/a'; env }
-    @verify[request[env, buf, :rewrite_env => rewrite_env], expected]
+    @verify[request(env, buf, :rewrite_env => rewrite_env), expected]
   end
 end
