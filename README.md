@@ -1,4 +1,4 @@
-# request-replay [![Build Status](https://secure.travis-ci.org/godfat/request-replay.png?branch=master)](http://travis-ci.org/godfat/request-replay)
+# request-replay [![Build Status](https://secure.travis-ci.org/godfat/request-replay.png?branch=master)](http://travis-ci.org/godfat/request-replay) [![Coverage Status](https://coveralls.io/repos/godfat/request-replay/badge.png)](https://coveralls.io/r/godfat/request-replay)
 
 by Lin Jen-Shin ([godfat](http://godfat.org))
 
