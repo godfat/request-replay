@@ -34,7 +34,7 @@ Connection: close\r
     env = {'rack.hijack' => mock.call{ env['rack.hijack_io'] = buf }.object}.
           merge(@env)
 
-    @verify[request(env, buf), expected]
+    verify(request(env, buf), expected)
   end
 
   would 'add_headers' do
@@ -50,7 +50,7 @@ Connection: close\r
     env = {'rack.hijack' => mock.call{ env['rack.hijack_io'] = buf }.object}.
           merge(@env)
 
-    @verify[request(env, buf, :add_headers => {'Host' => 'ex.com'}), expected]
+    verify(request(env, buf, :add_headers => {'Host' => 'ex.com'}), expected)
   end
 
   would 'rewrite_env' do
@@ -66,6 +66,6 @@ Connection: close\r
     env = {'rack.hijack' => mock.call{ env['rack.hijack_io'] = buf }.object}.
           merge(@env)
     rewrite_env = lambda{ |env| env['PATH_INFO'] = '/a'; env }
-    @verify[request(env, buf, :rewrite_env => rewrite_env), expected]
+    verify(request(env, buf, :rewrite_env => rewrite_env), expected)
   end
 end

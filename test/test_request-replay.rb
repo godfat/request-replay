@@ -17,7 +17,7 @@ describe RequestReplay do
   end
 
   would 'GET' do
-    @verify[request({'REQUEST_METHOD' => 'GET'}, 'Host' => 'ex.com'), <<-HTTP]
+    verify(request({'REQUEST_METHOD' => 'GET'}, 'Host' => 'ex.com'), <<-HTTP)
 GET /?q=1 HTTP/1.1\r
 Host: ex.com\r
 Pork: BEEF\r
@@ -26,10 +26,10 @@ Pork: BEEF\r
   end
 
   would 'POST' do
-    @verify[request('REQUEST_METHOD' => 'POST',
-                    'QUERY_STRING'   => ''    , # test no query string
-                    'PATH_INFO'      => ''    , # test no path info
-                    'rack.input' => StringIO.new("PAYLOAD\r\n\r\n")), <<-HTTP]
+    verify(request('REQUEST_METHOD' => 'POST',
+                   'QUERY_STRING'   => ''    , # test no query string
+                   'PATH_INFO'      => ''    , # test no path info
+                   'rack.input' => StringIO.new("PAYLOAD\r\n\r\n")), <<-HTTP)
 POST / HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
@@ -45,7 +45,7 @@ PAYLOAD\r
                                   rs[0].kind_of?(IO) },
                     [], [], read_wait)
 
-    @verify[request({}, {}, read_wait), <<-HTTP]
+    verify(request({}, {}, read_wait), <<-HTTP)
 GET /?q=1 HTTP/1.1\r
 Host: localhost\r
 Pork: BEEF\r
