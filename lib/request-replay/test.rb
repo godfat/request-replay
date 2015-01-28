@@ -20,6 +20,10 @@ copy :test do
              'HTTP_PORK' => 'BEEF'     }.freeze
   end
 
+  after do
+    @serv.close if @serv
+  end
+
   def verify response, expected
     sock = @serv.accept
     if expected.start_with?('POST')
